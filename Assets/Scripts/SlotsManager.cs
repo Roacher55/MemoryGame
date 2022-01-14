@@ -12,6 +12,7 @@ public class SlotsManager : MonoBehaviour
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip goodClip;
     [SerializeField] AudioClip wrongClip;
+    public bool canClick = true;
 
 
 
@@ -52,7 +53,8 @@ public class SlotsManager : MonoBehaviour
             slot1Image.sprite = slot1Slot.spriteSlot;
             slot2Image.sprite = slot2Slot.spriteSlot;
 
-            
+            slot1Image.color = Color.green;
+            slot2Image.color = Color.green;
 
             audioSource.clip = goodClip;
             audioSource.Play();
@@ -61,23 +63,30 @@ public class SlotsManager : MonoBehaviour
         }
         else
         {
+            canClick = false;
+            slot2Image.sprite = slot2Slot.spriteSlot;
             audioSource.clip = wrongClip;
             audioSource.Play();
-            slot1Image.sprite = null;
-            slot2Image.sprite = null;
-
-            slot1Image.color = Color.blue;
-            slot2Image.color = Color.blue;
-
             gameHelper.mistakes++;
+
+            slot1Image.color = Color.red;
+            slot2Image.color = Color.red;
+
+            StartCoroutine(Hide(slot1Image, slot2Image));
         }
       
         selectedSlot = null;
     }
 
-    void Win()
+    IEnumerator Hide(Image image1, Image image2)
     {
+        yield return new WaitForSeconds(2f);
+        image1.sprite = null;
+        image2.sprite = null;
 
+        image1.color = Color.blue;
+        image2.color = Color.blue;
+        canClick = true;
     }
 
 }

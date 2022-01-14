@@ -54,16 +54,17 @@ public class Slot : MonoBehaviour , IPointerEnterHandler, IPointerExitHandler, I
     public void OnPointerClick(PointerEventData eventData)
     {
 
-        if (imageSlot.sprite == null && slotsManager.selectedSlot != null)
+        if (imageSlot.sprite == null && slotsManager.selectedSlot != null && slotsManager.canClick)
         {
             slotsManager.AreSlotTheSame(slotsManager.selectedSlot, this.gameObject);
             return;
         }
 
 
-        if (imageSlot.sprite == null && slotsManager.selectedSlot == null && imageSlot.color == Color.yellow)
+        if (imageSlot.sprite == null && slotsManager.selectedSlot == null && imageSlot.color == Color.yellow && slotsManager.canClick)
         {
             imageSlot.sprite = spriteSlot;
+            imageSlot.color = Color.blue;
             slotsManager.selectedSlot = this.gameObject;
             return;
         }
